@@ -24,7 +24,6 @@ public class CharacterMovement
     public float airDrag;
     public float groundDrag;
 
-
     [NonSerialized]
     public CollisionFlags collisionFlags;
     
@@ -85,7 +84,7 @@ public class CharacterControl : MonoBehaviour
 
     private Rigidbody2D rg2d;
     
-    // private Animator anime;
+    private Animator anime;
 
    public Transform footPos;
     private CharacterController controller;
@@ -109,6 +108,11 @@ public class CharacterControl : MonoBehaviour
 
         // horizontal movement controls 
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
+        if(hori != 0)
+        {
+            this.GetComponent<Transform>().localScale = new Vector3(hori, 1, 1);
+        }
+        anime.SetFloat("hori", Math.Abs(hori));
 
         Debug.Log(GetHorizontalInput());
 
@@ -134,6 +138,7 @@ public class CharacterControl : MonoBehaviour
     void Start()
     {
         rg2d.mass = movement.mass;
+        anime = this.GetComponent<Animator>();
     }
 
 
