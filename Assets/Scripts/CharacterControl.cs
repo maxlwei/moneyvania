@@ -21,8 +21,8 @@ public class CharacterMovement
     public float jumpLeniency;
 
     // friction - resistance to motion
-    public float airDrag;
-    public float groundDrag;
+    public float movingDrag;
+    public float stoppingDrag;
 
 
     [NonSerialized]
@@ -43,23 +43,11 @@ public class CharacterMovement
 
         jumpLeniency = 0.2f;
 
-        airDrag = 0.1f;
-        groundDrag = 2000f;
+        movingDrag = 0.1f;
+        stoppingDrag = 2000f;
 
     }
 }
-
-// public class InputDir
-// {
-//     public float hori;
-//     public float verti;
-
-//     public InputDir()
-//     {
-//         hori = Input.GetAxis("Horizontal");
-//         verti = Input.GetAxis("Vertical");
-//     }
-// }
 
 [AddComponentMenu ("Character controller")]
 [RequireComponent (typeof (Rigidbody2D))]
@@ -85,45 +73,46 @@ public class CharacterControl : MonoBehaviour
 
     private Rigidbody2D rg2d;
     
-    // private Animator anime;
+    private Animator anime;
 
-   public Transform footPos;
+    public Transform footPos;
     private CharacterController controller;
     
     void FixedUpdate()
     {
-        // constants
+        // reads inputs every cycle
         hori =  GetHorizontalInput();
         verti = GetVerticalInput();
 
         grounded = GetGroundedState(); 
 
+        // checks last time character was on ground
         if(grounded){
             lastGroundTime = Time.time;
         }
 
+        // checks for upwards input and whether the character was recently grounded
+        // before jumping
         if(verti && (Time.time <  (movement.jumpLeniency + lastGroundTime))){
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
         
 
-        // horizontal movement controls 
+        // horizontal movement, doesnt require checks (for now)
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
+        // increases drag if grounded and stopping
         if (StoppingCheck(prevInput) && grounded){
-            rg2d.drag = movement.groundDrag;
-            if(Mathf.Abs(rg2d.velocity.x) < 4){
-                rg2d.velocity = Vector2.zero;
-            }
+            rg2d.drag = movement.stoppingDrag; // Very high drag
         }
         else{
-            rg2d.drag = movement.airDrag;
+            rg2d.drag = movement.movingDrag; // much lower drag (~0.1) for free movement
         }
 
-        // ensure movement is within speed limits
+        // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
 
-        // check if user is decelerating
+        // check user input for next cycle
         prevInput = Input.GetAxis("Horizontal");
 
     }
@@ -138,38 +127,50 @@ public class CharacterControl : MonoBehaviour
     // Awake is called before Start update
     void Awake()
     {
-        //  anime = GetComponent<Animator>();
+        // Getting components
+        anime = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();
         rg2d = GetComponent<Rigidbody2D>();
     }
 
     public float GetHorizontalInput()
     {
+        // if a direction is inputted -> return 1 in that direction
+        // if not, return 0
         float dir = Mathf.Abs(Input.GetAxis("Horizontal"));
         if(dir != 0){
             return Mathf.Sign(Input.GetAxis("Horizontal")) * 1f;
         }
         return 0;
     }
+
     public bool StoppingCheck(float prevInput)
     {
-        bool stopped = grounded && Input.GetAxis("Horizontal") == 0;
+        // grounded and not inputting a direction -> should not move
+        bool landed = grounded && Input.GetAxis("Horizontal") == 0;
+
+        // current input is less than previous input -> stopping
+        // might be redundant
         bool decelCheck = Mathf.Abs(Input.GetAxis("Horizontal")) < Mathf.Abs(prevInput);
-        return (decelCheck || stopped);
+        return (decelCheck || landed);
     }
 
     public bool GetVerticalInput()
     {
+        // uses keys for jumping instead of axes - to prevent residual input
         return (Input.GetKey("w")|| Input.GetKey("up"));
     }
 
     public bool GetGroundedState()
     {
-        return Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Background"));
+        // uses a circle positioned at body feet to detect contact with ground
+        return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
     }
 
     public Vector2 ApplySpeedLimits(Rigidbody2D body)
     {
+        // if a velocity in a direction exceeds the maximum velocity, sets
+        // the velocity in that direction to the maximum velocity
         Vector2 velocity = new Vector2(body.velocity.x, body.velocity.y);
         if (Mathf.Abs(body.velocity.x) > movement.maxHoriSpeed){
             velocity = new Vector2(Mathf.Sign(body.velocity.x) * movement.maxHoriSpeed, velocity.y);
