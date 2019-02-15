@@ -17,6 +17,12 @@ public class CharacterMovement
     public float moveForce;
     public float jumpForce;
 
+<<<<<<< HEAD
+=======
+    // number of seconds after falling until you can no longer jump
+    public float jumpLeniency;
+
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
     // friction - resistance to motion
     public float airDrag;
     public float groundDrag;
@@ -38,6 +44,11 @@ public class CharacterMovement
         moveForce = 200f * mass;
         jumpForce = 200f * mass;
 
+<<<<<<< HEAD
+=======
+        jumpLeniency = 0.2f;
+
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
         airDrag = 0.1f;
         groundDrag = 2000f;
 
@@ -82,7 +93,11 @@ public class CharacterControl : MonoBehaviour
     
     // private Animator anime;
 
+<<<<<<< HEAD
     private Transform tr;
+=======
+   public Transform footPos;
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
     private CharacterController controller;
     
     void FixedUpdate()
@@ -97,7 +112,11 @@ public class CharacterControl : MonoBehaviour
             lastGroundTime = Time.time;
         }
 
+<<<<<<< HEAD
         if(verti && (Time.time <  (0.2 + lastGroundTime))){
+=======
+        if(verti && (Time.time <  (movement.jumpLeniency + lastGroundTime))){
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
         
@@ -105,6 +124,10 @@ public class CharacterControl : MonoBehaviour
         // horizontal movement controls 
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
+<<<<<<< HEAD
+=======
+        Debug.Log(GetHorizontalInput());
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
 
         if (StoppingCheck(prevInput) && grounded){
             rg2d.drag = movement.groundDrag;
@@ -137,7 +160,10 @@ public class CharacterControl : MonoBehaviour
         //  anime = GetComponent<Animator>();
         collider = GetComponent<BoxCollider2D>();
         rg2d = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD
         tr = GetComponent<Transform>();
+=======
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
     }
 
     public float GetHorizontalInput()
@@ -161,7 +187,11 @@ public class CharacterControl : MonoBehaviour
 
     public bool GetGroundedState()
     {
+<<<<<<< HEAD
         return Physics2D.OverlapCircle(tr.position - new Vector3(0, 0.35f, 0), 0.2f, LayerMask.GetMask("background"));
+=======
+        return Physics2D.OverlapCircle(footPos.position, 0.2f, LayerMask.GetMask("Ground"));
+>>>>>>> e80535b41cb33351b6b28a3f3bc30b63d5465ce2
     }
 
     public Vector2 ApplySpeedLimits(Rigidbody2D body)
