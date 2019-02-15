@@ -110,8 +110,6 @@ public class CharacterControl : MonoBehaviour
         // horizontal movement controls 
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
-        Debug.Log(GetHorizontalInput());
-
         if (StoppingCheck(prevInput) && grounded){
             rg2d.drag = movement.groundDrag;
             if(Mathf.Abs(rg2d.velocity.x) < 4){
@@ -147,16 +145,17 @@ public class CharacterControl : MonoBehaviour
 
     public float GetHorizontalInput()
     {
-        float dir = 0;
-        if(Mathf.Abs(Input.GetAxis("Horizontal")) != 0){
-            dir = Mathf.Sign(Input.GetAxis("Horizontal")) * 1f;
+        float dir = Mathf.Abs(Input.GetAxis("Horizontal"));
+        if(dir != 0){
+            return Mathf.Sign(Input.GetAxis("Horizontal")) * 1f;
         }
-        return dir;
+        return 0;
     }
     public bool StoppingCheck(float prevInput)
     {
+        bool stopped = grounded && Input.GetAxis("Horizontal") == 0;
         bool decelCheck = Mathf.Abs(Input.GetAxis("Horizontal")) < Mathf.Abs(prevInput);
-        return decelCheck;
+        return (decelCheck || stopped);
     }
 
     public bool GetVerticalInput()
@@ -166,7 +165,7 @@ public class CharacterControl : MonoBehaviour
 
     public bool GetGroundedState()
     {
-        return Physics2D.OverlapCircle(footPos.position, 0.2f, LayerMask.GetMask("Ground"));
+        return Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Background"));
     }
 
     public Vector2 ApplySpeedLimits(Rigidbody2D body)
