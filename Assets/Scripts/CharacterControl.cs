@@ -93,20 +93,24 @@ public class CharacterControl : MonoBehaviour
         }
 
         grounded = GetGroundedState();
-        anime.SetFloat("hori", Math.Abs(hori));
 
         // checks last time character was on ground
         if (grounded){
             lastGroundTime = Time.time;
         }
 
+        // Animator params
+        anime.SetFloat("hori", Math.Abs(hori));
+        anime.SetBool("jump", verti);
+        anime.SetFloat("vertvel", rg2d.velocity.y);
+        anime.SetBool("grounded", grounded);
+        anime.SetFloat("deltafromground", Time.time - lastGroundTime);
+
         // checks for upwards input and whether the character was recently grounded
         // before jumping
-        if(verti && (Time.time <  (movement.jumpLeniency + lastGroundTime))){
+        if (verti && (Time.time <  (movement.jumpLeniency + lastGroundTime))){
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
-        
-
         // horizontal movement, doesnt require checks (for now)
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
