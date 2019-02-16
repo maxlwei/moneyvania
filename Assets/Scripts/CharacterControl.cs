@@ -84,10 +84,19 @@ public class CharacterControl : MonoBehaviour
         hori =  GetHorizontalInput();
         verti = GetVerticalInput();
 
-        grounded = GetGroundedState(); 
+        if (hori < 0)
+        {
+            this.GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+        } else if (hori > 0)
+        {
+            this.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
+        }
+
+        grounded = GetGroundedState();
+        anime.SetFloat("hori", Math.Abs(hori));
 
         // checks last time character was on ground
-        if(grounded){
+        if (grounded){
             lastGroundTime = Time.time;
         }
 
