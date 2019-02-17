@@ -61,7 +61,7 @@ public class CharacterControl : MonoBehaviour
 
     // input vars
     private float hori;
-    private bool verti;
+    private float verti;
 
 
     // speed + motion characteristics
@@ -112,7 +112,7 @@ public class CharacterControl : MonoBehaviour
 
         // Animator params
         anime.SetFloat("hori", Math.Abs(hori));
-        anime.SetBool("jump", verti);
+        // anime.SetFloat("jump", verti);
         float vertvel = rg2d.velocity.y;
         anime.SetFloat("vertvel", rg2d.velocity.y);
         anime.SetBool("grounded", grounded);
@@ -128,7 +128,7 @@ public class CharacterControl : MonoBehaviour
 
         // checks for upwards input and whether the character was recently grounded
         // before jumping
-        if (JumpCheck(verti, lastGroundTime, groundedTimer)){
+        if (JumpCheck(verti > 0, lastGroundTime, groundedTimer)){
             anime.Play("Jump.jumpstart");
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
@@ -198,10 +198,10 @@ public class CharacterControl : MonoBehaviour
         return input && walkoff && canJump;
     }
 
-    public bool GetVerticalInput()
+    public float GetVerticalInput()
     {
         // uses keys for jumping instead of axes - to prevent residual input
-        return (Input.GetKey("w")|| Input.GetKey("up"));
+        return (Input.GetAxis("Jump"));
     }
 
     public bool GetGroundedState()
