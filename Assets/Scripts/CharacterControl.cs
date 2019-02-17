@@ -133,9 +133,13 @@ public class CharacterControl : MonoBehaviour
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
 
-        // horizontal movement, doesnt require checks (for now)
-        rg2d.AddForce(Vector2.right * hori * movement.moveForce);
-
+        // horizontal movement, now with checks
+        if(verti >= -0.1){
+            rg2d.AddForce(Vector2.right * hori * movement.moveForce);
+        }
+        else{
+            rg2d.velocity = new Vector2(0, rg2d.velocity.y); 
+        }
         
         if(StoppingCheck(hori)){
             // set velocity to 0 if no horizontal input is read
