@@ -23,7 +23,7 @@ public class CharacterMovement
     // friction - resistance to motion
     public float movingDrag;
     public float stoppingDrag;
-
+    public float airDrag;
 
     [NonSerialized]
     public CollisionFlags collisionFlags;
@@ -36,15 +36,16 @@ public class CharacterMovement
     {
         mass = 1f;
 
-        maxHoriSpeed = 5f;
+        maxHoriSpeed = 8f;
         maxVertiSpeed = 8f;
-        moveForce = 200f * mass;
-        jumpForce = 200f * mass;
+        moveForce = 200f;
+        jumpForce = 200f;
 
         jumpLeniency = 0.2f;
 
         movingDrag = 0.1f;
         stoppingDrag = 2000f;
+        airDrag = 100f;
 
     }
 }
@@ -77,13 +78,19 @@ public class CharacterControl : MonoBehaviour
 
     public Transform footPos;
     private CharacterController controller;
-    
-    void FixedUpdate()
+
+    // Update is called once per frame
+    void Update()
     {
-        // reads inputs every cycle
+        // reads inputs every frame
         hori =  GetHorizontalInput();
         verti = GetVerticalInput();
 
+    }
+    
+    void FixedUpdate()
+    {
+        
         if (hori < 0)
         {
             this.GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
@@ -108,6 +115,8 @@ public class CharacterControl : MonoBehaviour
         anime.SetBool("grounded", grounded);
         anime.SetBool("nearground", IsNearGround());
         anime.SetFloat("deltafromground", Time.time - lastGroundTime);
+
+        
         if (vertvel < -1.0 && !currentstate.IsName("Jump.jumpdownstall")
            && !currentstate.IsName("Jump.jumpland") && !currentstate.IsName("Jump.fallonly"))
         {
@@ -127,9 +136,14 @@ public class CharacterControl : MonoBehaviour
         if (StoppingCheck(prevInput) && grounded){
             rg2d.drag = movement.stoppingDrag; // Very high drag
         }
+        else if(StoppingCheck(prevInput)){
+            rg2d.velocity = new Vector2(rg2d.velocity.x * (1-Time.fixedDeltaTime * movement.airDrag), rg2d.velocity.y);
+        }
         else{
             rg2d.drag = movement.movingDrag; // much lower drag (~0.1) for free movement
         }
+
+        
 
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
@@ -209,9 +223,4 @@ public class CharacterControl : MonoBehaviour
         return velocity;
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 }
