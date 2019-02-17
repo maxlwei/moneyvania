@@ -38,9 +38,9 @@ public class CharacterMovement
         maxHoriSpeed = 8f;
         maxVertiSpeed = 8f;
         moveForce = 200f;
-        jumpForce = 200f;
+        jumpForce = 300f;
 
-        jumpLeniency = 0.1f;
+        jumpLeniency = 0.2f;
 
         gravity = 9.81f;
 
@@ -69,7 +69,7 @@ public class CharacterControl : MonoBehaviour
     //keep this public, for some reason
     public CharacterMovement movement;
 
-    public BoxCollider2D groundCollider;
+    private BoxCollider2D groundCollider;
 
     private Rigidbody2D rg2d;
     
