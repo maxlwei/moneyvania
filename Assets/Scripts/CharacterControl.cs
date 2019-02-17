@@ -93,6 +93,7 @@ public class CharacterControl : MonoBehaviour
         }
 
         grounded = GetGroundedState();
+        AnimatorStateInfo currentstate = anime.GetCurrentAnimatorStateInfo(0);
 
         // checks last time character was on ground
         if (grounded){
@@ -105,11 +106,12 @@ public class CharacterControl : MonoBehaviour
         float vertvel = rg2d.velocity.y;
         anime.SetFloat("vertvel", rg2d.velocity.y);
         anime.SetBool("grounded", grounded);
+        anime.SetBool("nearground", IsNearGround());
         anime.SetFloat("deltafromground", Time.time - lastGroundTime);
-        if(-1.3 < vertvel && vertvel < -1.0) {
+        if (vertvel < -1.0 && !currentstate.IsName("Jump.jumpdownstall")
+           && !currentstate.IsName("Jump.jumpland") && !currentstate.IsName("Jump.fallonly"))
+        {
             anime.Play("Jump.fallonly");
-        } else if (vertvel < -3.0) {
-            anime.Play("Jump.jumpdownstall");
         }
 
         // checks for upwards input and whether the character was recently grounded
@@ -185,6 +187,12 @@ public class CharacterControl : MonoBehaviour
     {
         // uses a circle positioned at body feet to detect contact with ground
         return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
+    }
+
+    public bool IsNearGround()
+    {
+        // uses a circle positioned at body feet to detect contact with ground
+        return Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Background"));
     }
 
     public Vector2 ApplySpeedLimits(Rigidbody2D body)

@@ -425,7 +425,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7696226e2fd373e4cba32165f5ed4108, type: 3}
+  m_Sprite: {fileID: 21300016, guid: 7696226e2fd373e4cba32165f5ed4108, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1465,6 +1465,15 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
+  - first: {x: 23, y: -3, z: 0}
+    second:
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
   - first: {x: 24, y: -3, z: 0}
     second:
       m_TileIndex: 0
@@ -1532,6 +1541,15 @@ Tilemap:
     second:
       m_TileIndex: 0
       m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
+  - first: {x: 32, y: -3, z: 0}
+    second:
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -18821,11 +18839,15 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 1986
     m_Data: {fileID: 11400000, guid: 3628384b7374e1440ade5feafa150989, type: 2}
+  - m_RefCount: 2
+    m_Data: {fileID: 11400000, guid: e4abe1a2fd3f07c41bb8e828482c5326, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1986
     m_Data: {fileID: 21300036, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
+  - m_RefCount: 2
+    m_Data: {fileID: 21300034, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 1986
+  - m_RefCount: 1988
     m_Data:
       e00: 1
       e01: 0
@@ -18844,7 +18866,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 1986
+  - m_RefCount: 1988
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -20227,8 +20249,8 @@ Tilemap:
       m_ColliderType: 1
   - first: {x: 32, y: -3, z: 0}
     second:
-      m_TileIndex: 1
-      m_TileSpriteIndex: 1
+      m_TileIndex: 6
+      m_TileSpriteIndex: 6
       m_TileMatrixIndex: 1
       m_TileColorIndex: 0
       m_ObjectToInstantiate: {fileID: 0}
@@ -22245,7 +22267,7 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: a78d713de7ad94749ab9154ec0dedd0e, type: 2}
-  - m_RefCount: 50
+  - m_RefCount: 49
     m_Data: {fileID: 11400000, guid: 79bcba99b1ab76b43a6363e85396528e, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: f69467aeeffc2f74ca246275475984c6, type: 2}
@@ -22255,7 +22277,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: e4abe1a2fd3f07c41bb8e828482c5326, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: d3638b86a3e80ca4b95a9fd305c83a37, type: 2}
-  - m_RefCount: 6
+  - m_RefCount: 7
     m_Data: {fileID: 11400000, guid: 029030d8be2963641b345917208bccdb, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: fe215d204ddd6ee47ab0be99af6af6e0, type: 2}
@@ -22286,7 +22308,7 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: 21300102, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
-  - m_RefCount: 50
+  - m_RefCount: 49
     m_Data: {fileID: 21300010, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300026, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
@@ -22296,7 +22318,7 @@ Tilemap:
     m_Data: {fileID: 21300034, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 21300090, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
-  - m_RefCount: 6
+  - m_RefCount: 7
     m_Data: {fileID: 21300014, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300098, guid: d4024c3b29a5c3545b31c279f44e19f5, type: 3}
@@ -22483,12 +22505,12 @@ MonoBehaviour:
   movement:
     mass: 1
     maxHoriSpeed: 5
-    maxVertiSpeed: 8
+    maxVertiSpeed: 10
     moveForce: 200
     jumpForce: 200
     jumpLeniency: 0.2
-    movingDrag: 0.1
-    stoppingDrag: 2000
+    movingDrag: 1
+    stoppingDrag: 50
   footPos: {fileID: 8457548506199831824}
 --- !u!4 &8457548506199831824
 Transform:
