@@ -20,6 +20,10 @@ public class CharacterMovement
     // number of seconds after falling until you can no longer jump
     public float jumpLeniency;
 
+    // increased gravity for our girl
+    public float gravity;
+
+
     [NonSerialized]
     public CollisionFlags collisionFlags;
     
@@ -38,6 +42,8 @@ public class CharacterMovement
 
         jumpLeniency = 0.2f;
 
+        gravity = 9.81f;
+
     }
 }
 
@@ -51,12 +57,12 @@ public class CharacterControl : MonoBehaviour
     private bool grounded;
 
     private float lastGroundTime;
+    private float lastJumpTime;
 
     // input vars
     private float hori;
     private bool verti;
 
-    private float prevInput;
 
     // speed + motion characteristics
     public CharacterMovement movement;
@@ -74,7 +80,7 @@ public class CharacterControl : MonoBehaviour
     void Update()
     {
         // reads inputs every frame
-        hori =  GetHorizontalInput(prevInput);
+        hori =  GetHorizontalInput();
         verti = GetVerticalInput();
 
     }
@@ -82,11 +88,10 @@ public class CharacterControl : MonoBehaviour
     void FixedUpdate()
     {
         
-        if (hori < 0)
-        {
+        if (hori < 0){
             this.GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
-        } else if (hori > 0)
-        {
+        } 
+        else if (hori > 0){
             this.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
         }
 
@@ -116,10 +121,11 @@ public class CharacterControl : MonoBehaviour
 
         // checks for upwards input and whether the character was recently grounded
         // before jumping
-        if (verti && (Time.time <  (movement.jumpLeniency + lastGroundTime))){
+        if (JumpCheck(verti, lastGroundTime)){
             anime.Play("Jump.jumpstart");
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
+
         // horizontal movement, doesnt require checks (for now)
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
@@ -127,17 +133,13 @@ public class CharacterControl : MonoBehaviour
         if(StoppingCheck(hori)){
             // set velocity to 0 if no horizontal input is read
             rg2d.velocity = new Vector2(0, rg2d.velocity.y);
-
-            // if we want to simulate drag 
-            // rg2d.velocity = new Vector2(rg2d.velocity.x * (1-Time.fixedDeltaTime * movement.airDrag), rg2d.velocity.y);
-
         }
+
+        // extra gravity
+        rg2d.AddForce(Vector2.down * rg2d.mass * movement.gravity);
 
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
-
-        // check user input for next cycle
-        prevInput = Input.GetAxis("Horizontal");
 
     }
 
@@ -157,7 +159,7 @@ public class CharacterControl : MonoBehaviour
         rg2d = GetComponent<Rigidbody2D>();
     }
 
-    public float GetHorizontalInput(float prevInput)
+    public float GetHorizontalInput()
     {
         // if a direction is inputted -> return 1 in that direction
         // if not, return 0
@@ -171,12 +173,16 @@ public class CharacterControl : MonoBehaviour
         return 0;
     }
 
-    public bool StoppingCheck(float input)
+    public bool StoppingCheck(float Input)
     {
-
         // current input is less than previous is zero -> stopping
-        bool decelCheck = input == 0;
+        bool decelCheck = Input == 0;
         return decelCheck;
+    }
+
+    public bool JumpCheck(bool input, float groundTime)
+    {
+        return input && (Time.time <  (movement.jumpLeniency + groundTime));
     }
 
     public bool GetVerticalInput()
