@@ -291,12 +291,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AssetsPPU: 16
-  m_RefResolutionX: 371
-  m_RefResolutionY: 235
-  m_UpscaleRT: 1
+  m_RefResolutionX: 710
+  m_RefResolutionY: 340
+  m_UpscaleRT: 0
   m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
+  m_CropFrameX: 1
+  m_CropFrameY: 1
   m_StretchFill: 0
 --- !u!1 &1066597636
 GameObject:
@@ -809,7 +809,7 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1759697908
@@ -951,7 +951,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.08, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -962,7 +962,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.85, y: 0.03}
+  m_Size: {x: 0.75, y: 0.03}
   m_EdgeRadius: 0
 --- !u!4 &2006574258452901336
 Transform:
@@ -23364,13 +23364,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement:
     mass: 1
-    maxHoriSpeed: 8
+    maxHoriSpeed: 4
     maxVertiSpeed: 8
     moveForce: 200
     jumpForce: 300
     jumpLeniency: 0.2
     gravity: 9.81
-  groundCollider: {fileID: 1225783467235557294}
   footPos: {fileID: 8457548506199831824}
 --- !u!4 &8457548506199831824
 Transform:

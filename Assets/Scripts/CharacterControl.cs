@@ -35,7 +35,7 @@ public class CharacterMovement
     {
         mass = 1f;
 
-        maxHoriSpeed = 8f;
+        maxHoriSpeed = 4f;
         maxVertiSpeed = 8f;
         moveForce = 200f;
         jumpForce = 300f;
@@ -57,7 +57,7 @@ public class CharacterControl : MonoBehaviour
     private bool grounded;
 
     private float lastGroundTime;
-    private float lastJumpTime;
+    private float groundedTimer;
 
     // input vars
     private float hori;
@@ -104,6 +104,10 @@ public class CharacterControl : MonoBehaviour
         // checks last time character was on ground
         if (grounded){
             lastGroundTime = Time.time;
+            groundedTimer += 1 * Time.fixedDeltaTime;
+        }
+        else if(Time.time >  (movement.jumpLeniency + lastGroundTime)){
+            groundedTimer = 0;
         }
 
         // Animator params
@@ -124,7 +128,7 @@ public class CharacterControl : MonoBehaviour
 
         // checks for upwards input and whether the character was recently grounded
         // before jumping
-        if (JumpCheck(verti, lastGroundTime)){
+        if (JumpCheck(verti, lastGroundTime, groundedTimer)){
             anime.Play("Jump.jumpstart");
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
@@ -187,9 +191,11 @@ public class CharacterControl : MonoBehaviour
         return decelCheck;
     }
 
-    public bool JumpCheck(bool input, float groundTime)
+    public bool JumpCheck(bool input, float groundTime, float timer)
     {
-        return input && (Time.time <  (movement.jumpLeniency + groundTime));
+        bool canJump = timer > 0.2;
+        bool walkoff = Time.time <  (movement.jumpLeniency + groundTime);
+        return input && walkoff && canJump;
     }
 
     public bool GetVerticalInput()
