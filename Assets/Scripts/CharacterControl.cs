@@ -40,7 +40,7 @@ public class CharacterMovement
         moveForce = 200f;
         jumpForce = 200f;
 
-        jumpLeniency = 0.2f;
+        jumpLeniency = 0.1f;
 
         gravity = 9.81f;
 
@@ -65,15 +65,18 @@ public class CharacterControl : MonoBehaviour
 
 
     // speed + motion characteristics
+
+    //keep this public, for some reason
     public CharacterMovement movement;
 
-    private BoxCollider2D collider;
+    public BoxCollider2D groundCollider;
 
     private Rigidbody2D rg2d;
     
     private Animator anime;
 
     public Transform footPos;
+
     private CharacterController controller;
 
     // Update is called once per frame
@@ -155,7 +158,11 @@ public class CharacterControl : MonoBehaviour
     {
         // Getting components
         anime = GetComponent<Animator>();
-        collider = GetComponent<BoxCollider2D>();
+
+        // gets component from the child
+        foreach(BoxCollider2D collider in GetComponentsInChildren<BoxCollider2D>()){
+            groundCollider = collider;
+        }
         rg2d = GetComponent<Rigidbody2D>();
     }
 
@@ -194,7 +201,10 @@ public class CharacterControl : MonoBehaviour
     public bool GetGroundedState()
     {
         // uses a circle positioned at body feet to detect contact with ground
-        return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
+        // return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
+
+        // uses a collider on footpos
+        return groundCollider.IsTouchingLayers(LayerMask.GetMask("Background"));
     }
 
     public bool IsNearGround()
