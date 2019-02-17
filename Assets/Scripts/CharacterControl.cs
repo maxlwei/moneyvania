@@ -81,7 +81,7 @@ public class CharacterControl : MonoBehaviour
     void Update()
     {
         // reads inputs every frame
-        hori =  GetHorizontalInput();
+        hori =  GetHorizontalInput(prevInput);
         verti = GetVerticalInput();
 
     }
@@ -131,10 +131,10 @@ public class CharacterControl : MonoBehaviour
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
         // increases drag if grounded and stopping
-        if (StoppingCheck(prevInput) && grounded){
+        if (StoppingCheck(hori) && grounded){
             rg2d.drag = movement.stoppingDrag; // Very high drag
         }
-        else if(hori == 0){
+        else if(StoppingCheck(hori)){
             // set velocity to 0 if no horizontal input is read
             rg2d.velocity = new Vector2(0, rg2d.velocity.y);
 
@@ -175,26 +175,25 @@ public class CharacterControl : MonoBehaviour
         rg2d = GetComponent<Rigidbody2D>();
     }
 
-    public float GetHorizontalInput()
+    public float GetHorizontalInput(float prevInput)
     {
         // if a direction is inputted -> return 1 in that direction
         // if not, return 0
-        float dir = Mathf.Abs(Input.GetAxis("Horizontal"));
-        if(dir != 0){
-            return Mathf.Sign(Input.GetAxis("Horizontal")) * 1f;
+
+        if(Input.GetKey("a") || Input.GetKey("left")){
+            return -1;
+        }
+        if(Input.GetKey("d") || Input.GetKey("right")){
+            return 1;
         }
         return 0;
     }
 
-    public bool StoppingCheck(float prevInput)
+    public bool StoppingCheck(float input)
     {
-        // grounded and not inputting a direction -> should not move
-        bool landed = grounded && Input.GetAxis("Horizontal") == 0;
-
-        // current input is less than previous input -> stopping
-        // might be redundant
-        bool decelCheck = Mathf.Abs(Input.GetAxis("Horizontal")) < Mathf.Abs(prevInput);
-        return (decelCheck || landed);
+        // current input is less than previous is zero -> stopping
+        bool decelCheck = input == 0;
+        return decelCheck;
     }
 
     public bool GetVerticalInput()
