@@ -86,6 +86,8 @@ public class CharacterControl : MonoBehaviour
     // health counter - text for now but probably will be image based later
     public Text healthText;
     private float health = 5f;
+    private float invincibleTimer = 0f;
+    private float invincibleTime = 100f; // number of FixedUpdate cycles before you can be hit again
 
     // Update is called once per frame
     void Update()
@@ -160,6 +162,11 @@ public class CharacterControl : MonoBehaviour
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
 
+        if (invincibleTimer > 0f)
+        {
+            invincibleTimer -= 1f;
+        }
+
     }
 
     // Start is called after Awake, before first frame
@@ -187,10 +194,11 @@ public class CharacterControl : MonoBehaviour
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.collider.tag == "Enemy")
+            if (contact.collider.tag == "Enemy" && invincibleTimer == 0)
             {
-                health -= 0.5f; // still have that bug where OnCollisionEnter2D is called twice per collision, so this is really -1 health per hit
-                healthText.text = "Health:" + health.ToString();
+                health -= 1f;
+                healthText.text = "Health: " + health.ToString();
+                invincibleTimer = invincibleTime;
                 if (health <= 0)
                 {
                     healthText.text = "You died";
