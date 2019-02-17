@@ -102,13 +102,20 @@ public class CharacterControl : MonoBehaviour
         // Animator params
         anime.SetFloat("hori", Math.Abs(hori));
         anime.SetBool("jump", verti);
+        float vertvel = rg2d.velocity.y;
         anime.SetFloat("vertvel", rg2d.velocity.y);
         anime.SetBool("grounded", grounded);
         anime.SetFloat("deltafromground", Time.time - lastGroundTime);
+        if(-1.3 < vertvel && vertvel < -1.0) {
+            anime.Play("Jump.fallonly");
+        } else if (vertvel < -3.0) {
+            anime.Play("Jump.jumpdownstall");
+        }
 
         // checks for upwards input and whether the character was recently grounded
         // before jumping
         if (verti && (Time.time <  (movement.jumpLeniency + lastGroundTime))){
+            anime.Play("Jump.jumpstart");
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
         // horizontal movement, doesnt require checks (for now)
