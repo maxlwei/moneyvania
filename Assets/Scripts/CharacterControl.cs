@@ -20,10 +20,6 @@ public class CharacterMovement
     // number of seconds after falling until you can no longer jump
     public float jumpLeniency;
 
-    // friction - resistance to motion
-    public float movingDrag;
-    public float stoppingDrag;
-
     [NonSerialized]
     public CollisionFlags collisionFlags;
     
@@ -41,9 +37,6 @@ public class CharacterMovement
         jumpForce = 200f;
 
         jumpLeniency = 0.2f;
-
-        movingDrag = 0.1f;
-        stoppingDrag = 2000f;
 
     }
 }
@@ -130,11 +123,8 @@ public class CharacterControl : MonoBehaviour
         // horizontal movement, doesnt require checks (for now)
         rg2d.AddForce(Vector2.right * hori * movement.moveForce);
 
-        // increases drag if grounded and stopping
-        if (StoppingCheck(hori) && grounded){
-            rg2d.drag = movement.stoppingDrag; // Very high drag
-        }
-        else if(StoppingCheck(hori)){
+        
+        if(StoppingCheck(hori)){
             // set velocity to 0 if no horizontal input is read
             rg2d.velocity = new Vector2(0, rg2d.velocity.y);
 
@@ -142,14 +132,6 @@ public class CharacterControl : MonoBehaviour
             // rg2d.velocity = new Vector2(rg2d.velocity.x * (1-Time.fixedDeltaTime * movement.airDrag), rg2d.velocity.y);
 
         }
-        else{
-            rg2d.drag = movement.movingDrag; // much lower drag (~0.1) for free movement
-        }
-
-        Debug.Log(rg2d.velocity.x);
-        Debug.Log(hori + " input");
-
-        
 
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
@@ -191,6 +173,7 @@ public class CharacterControl : MonoBehaviour
 
     public bool StoppingCheck(float input)
     {
+
         // current input is less than previous is zero -> stopping
         bool decelCheck = input == 0;
         return decelCheck;
