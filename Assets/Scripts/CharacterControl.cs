@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class CharacterMovement
@@ -25,7 +26,6 @@ public class CharacterMovement
 
     // increased gravity for our girl
     public float gravity;
-
 
     [NonSerialized]
     public CollisionFlags collisionFlags;
@@ -82,6 +82,10 @@ public class CharacterControl : MonoBehaviour
     public Transform footPos;
 
     private CharacterController controller;
+
+    // health counter - text for now but probably will be image based later
+    public Text healthText;
+    private float health = 5f;
 
     // Update is called once per frame
     void Update()
@@ -162,6 +166,7 @@ public class CharacterControl : MonoBehaviour
     void Start()
     {
         rg2d.mass = movement.mass;
+        healthText.text = "Health:" + health.ToString();
     }
 
 
@@ -176,6 +181,22 @@ public class CharacterControl : MonoBehaviour
             groundCollider = collider;
         }
         rg2d = GetComponent<Rigidbody2D>();
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        foreach (ContactPoint2D contact in col.contacts)
+        {
+            if (contact.collider.tag == "Enemy")
+            {
+                health -= 0.5f; // still have that bug where OnCollisionEnter2D is called twice per collision, so this is really -1 health per hit
+                healthText.text = "Health:" + health.ToString();
+                if (health <= 0)
+                {
+                    healthText.text = "You died";
+                }
+            }
+        }
     }
 
     public float GetHorizontalInput()

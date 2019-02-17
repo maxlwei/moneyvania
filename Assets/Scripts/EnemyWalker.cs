@@ -38,10 +38,10 @@ public class EnemyWalker : MonoBehaviour
                 collision = false;
             }
 
-            if (contact.collider.name == "Player")
+            /*if (contact.collider.name == "Player")
             {
                 rb2d.AddForce(new Vector2(0f, 100f));
-            }
+            }*/
         }
     }
 }
