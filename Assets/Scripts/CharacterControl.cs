@@ -20,6 +20,9 @@ public class CharacterMovement
     // number of seconds after falling until you can no longer jump
     public float jumpLeniency;
 
+    // number of seconds after landing until you can jump
+    public float jumpDelay;
+
     // increased gravity for our girl
     public float gravity;
 
@@ -41,6 +44,7 @@ public class CharacterMovement
         jumpForce = 300f;
 
         jumpLeniency = 0.2f;
+        jumpDelay = 0.1f;
 
         gravity = 9.81f;
 
@@ -112,7 +116,7 @@ public class CharacterControl : MonoBehaviour
 
         // Animator params
         anime.SetFloat("hori", Math.Abs(hori));
-        // anime.SetFloat("jump", verti);
+        anime.SetFloat("verti", verti);
         float vertvel = rg2d.velocity.y;
         anime.SetFloat("vertvel", rg2d.velocity.y);
         anime.SetBool("grounded", grounded);
@@ -197,7 +201,7 @@ public class CharacterControl : MonoBehaviour
 
     public bool JumpCheck(bool input, float groundTime, float timer)
     {
-        bool canJump = timer > 0.2;
+        bool canJump = timer > movement.jumpDelay;
         bool walkoff = Time.time <  (movement.jumpLeniency + groundTime);
         return input && walkoff && canJump;
     }
