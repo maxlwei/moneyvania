@@ -1,24 +1,26 @@
 fileFormatVersion: 2
-guid: e48dcca05885f9c4abedf0f62792fdce
+guid: 941ba20cc2e243e4b91e837f8a98a71c
 TextureImporter:
   fileIDToRecycleName:
-    21300000: turtleboar_0
-    21300002: turtleboar_1
-    21300004: turtleboar_2
-    21300006: turtleboar_3
-    21300008: turtleboar_4
-    21300010: turtleboar_5
-    21300012: turtleboar_6
-    21300014: turtleboar_7
-    21300016: turtleboar_8
-    21300018: turtleboar_9
-    21300020: turtleboar_10
-    21300022: turtleboar_11
-    21300024: turtleboar_12
-    21300026: turtleboar_13
-    21300028: turtleboar_14
-    21300030: turtleboar_15
-    21300032: turtleboar_16
+    21300000: boiddoidle_0
+    21300002: boiddoidle_1
+    21300004: boiddoidle_2
+    21300006: boiddoidle_3
+    21300008: boiddoidle_4
+    21300010: boiddoidle_5
+    21300012: boiddoidle_6
+    21300014: boiddoidle_7
+    21300016: boiddoidle_8
+    21300018: boiddoidle_9
+    21300020: boiddoidle_10
+    21300022: boiddoidle_11
+    21300024: boiddoidle_12
+    21300026: boiddoidle_13
+    21300028: boiddoidle_14
+    21300030: boiddoidle_15
+    21300032: boiddoidle_16
+    21300034: boiddoidle_17
+    21300036: boiddoidle_18
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -112,7 +114,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: turtleboar_0
+      name: boiddoidle_0
       rect:
         serializedVersion: 2
         x: 0
@@ -126,13 +128,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5970eb3830265334f81467b85b849fe4
+      spriteID: 5e4eefcdf528b4246a9c3a9bc4ef1055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_1
+      name: boiddoidle_1
       rect:
         serializedVersion: 2
         x: 32
@@ -146,13 +148,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bff01fda5347b3a4b98e3db5fd26f577
+      spriteID: 07daa7a37953e6f4fa6c16327c9f8a1b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_2
+      name: boiddoidle_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,13 +168,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2dcc71648b80b674daae1823c678c9fd
+      spriteID: 42857f26da316f846ab3793771f429f9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_3
+      name: boiddoidle_3
       rect:
         serializedVersion: 2
         x: 96
@@ -186,13 +188,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3331a47bd717e6042878f51d8ab0197f
+      spriteID: e6aaf97fb87336d409a2bef7155b5536
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_4
+      name: boiddoidle_4
       rect:
         serializedVersion: 2
         x: 0
@@ -206,13 +208,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 027f088f066b10b42bb6f126eef615a3
+      spriteID: 05abcf55ac5f0fa49b50ce248f207d09
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_5
+      name: boiddoidle_5
       rect:
         serializedVersion: 2
         x: 32
@@ -226,13 +228,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4739a2956040a66478bc687bb675b01a
+      spriteID: b8bfcda988d04024bb5d2d95d2cf6bb8
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_6
+      name: boiddoidle_6
       rect:
         serializedVersion: 2
         x: 64
@@ -246,13 +248,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 67bb2f42fc290844f845ed596f5e473b
+      spriteID: 487b888c82776b540a1dbc5933fe97cb
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_7
+      name: boiddoidle_7
       rect:
         serializedVersion: 2
         x: 96
@@ -266,13 +268,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 071d4e56810d20d47b0eb11376f16fbb
+      spriteID: d145ccb28794c0a40ae6567b138e3171
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_8
+      name: boiddoidle_8
       rect:
         serializedVersion: 2
         x: 0
@@ -286,13 +288,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3cd7b05a8bcc60b4db6338303b93b8c7
+      spriteID: 9bd58570afb6ddd409640ad865fc5369
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_9
+      name: boiddoidle_9
       rect:
         serializedVersion: 2
         x: 32
@@ -306,13 +308,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b119eff5f5b4af94caaeefe78b59cadb
+      spriteID: dbd0ecfe50f87ba49afb7b106f4c8816
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_10
+      name: boiddoidle_10
       rect:
         serializedVersion: 2
         x: 64
@@ -326,13 +328,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f7a0b97acd3be7449b458ddfa66cb12
+      spriteID: 5b522064a72046047a8a96a869335190
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_11
+      name: boiddoidle_11
       rect:
         serializedVersion: 2
         x: 96
@@ -346,13 +348,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8b491549b2dd0642a10e4aa704e3467
+      spriteID: 293ff2f4093abb842965ebda477280ba
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_12
+      name: boiddoidle_12
       rect:
         serializedVersion: 2
         x: 0
@@ -366,13 +368,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 104a820798586f84892f90973cd3a58d
+      spriteID: 8b4dab2776981874fb84c4c4cc43e425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_13
+      name: boiddoidle_13
       rect:
         serializedVersion: 2
         x: 32
@@ -386,13 +388,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2aae17c4a4cd1a14c843e1368c6ee186
+      spriteID: dd97b1a720b8c224e891d6b01742ba7a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_14
+      name: boiddoidle_14
       rect:
         serializedVersion: 2
         x: 64
@@ -406,13 +408,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 77a6ee7ea11b51846baad48fea222915
+      spriteID: edb93c082c191d74c8fd9c206d54899f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_15
+      name: boiddoidle_15
       rect:
         serializedVersion: 2
         x: 96
@@ -426,13 +428,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 952321a5acd752b4691b170d05e4ca92
+      spriteID: 9d4e29143538f9c4789836e2d18e29e9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: turtleboar_16
+      name: boiddoidle_16
       rect:
         serializedVersion: 2
         x: 0
@@ -446,7 +448,47 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59fd3ab2d693b6b409083db71a8070ab
+      spriteID: ed2b4cdb0050e5d41b9a85750416ee56
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boiddoidle_17
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf7d1f507dd9db46b8350831d9b6ba8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boiddoidle_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e5d4ded97187a141ad6a275229e4e9c
       vertices: []
       indices: 
       edges: []
@@ -454,7 +496,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a406fb1ac3a260e44aa3b7959b80bf1b
+    spriteID: 6cc469a84f902f04584283c5ae3573df
     vertices: []
     indices: 
     edges: []
