@@ -23,7 +23,6 @@ public class CharacterMovement
     // friction - resistance to motion
     public float movingDrag;
     public float stoppingDrag;
-    public float airDrag;
 
     [NonSerialized]
     public CollisionFlags collisionFlags;
@@ -45,7 +44,6 @@ public class CharacterMovement
 
         movingDrag = 0.1f;
         stoppingDrag = 2000f;
-        airDrag = 100f;
 
     }
 }
@@ -136,12 +134,20 @@ public class CharacterControl : MonoBehaviour
         if (StoppingCheck(prevInput) && grounded){
             rg2d.drag = movement.stoppingDrag; // Very high drag
         }
-        else if(StoppingCheck(prevInput)){
-            rg2d.velocity = new Vector2(rg2d.velocity.x * (1-Time.fixedDeltaTime * movement.airDrag), rg2d.velocity.y);
+        else if(hori == 0){
+            // set velocity to 0 if no horizontal input is read
+            rg2d.velocity = new Vector2(0, rg2d.velocity.y);
+
+            // if we want to simulate drag 
+            // rg2d.velocity = new Vector2(rg2d.velocity.x * (1-Time.fixedDeltaTime * movement.airDrag), rg2d.velocity.y);
+
         }
         else{
             rg2d.drag = movement.movingDrag; // much lower drag (~0.1) for free movement
         }
+
+        Debug.Log(rg2d.velocity.x);
+        Debug.Log(hori + " input");
 
         
 
