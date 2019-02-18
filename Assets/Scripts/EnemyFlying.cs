@@ -12,10 +12,13 @@ using UnityEngine;
 public class EnemyFlying : MonoBehaviour
 {
     public float maxSpeed = 3f; // max movement speed
+    public int directionTime = 50; // number of FixedUpdate cycles until vertical direction changes
 
     private Rigidbody2D rb2d;
-    private int direction = 1; // movement direction
-    private bool collision = false; // all the stuff with this variable is to prevent bug where OnCollisonEnter2D is called twice per collision
+    private int directionX = 1; // horizontal direction
+    private int directionY = 1; // vertical direction
+    private int directionTimer = 0; // counter for changing vertical direction
+    private bool collision = false; // all the stuff with this variable is to prevent a bug where OnCollisonEnter2D is called twice per collision
 
     void Awake()
     {
@@ -24,18 +27,34 @@ public class EnemyFlying : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb2d.velocity = new Vector2(maxSpeed * direction, rb2d.velocity.y); // enemy moves with fixed speed rather than with force
+        rb2d.velocity = new Vector2(maxSpeed * directionX, maxSpeed * directionY); // enemy moves with fixed speed rather than with force
         collision = true;
+
+        directionTimer -= 1;
+        if (directionTimer <= 0)
+        {
+            directionTimer = directionTime;
+            directionY *= -1;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.otherCollider.name == "Body" && collision)
+            if (collision)
             {
-                direction *= -1;
-                collision = false;
+                if (contact.otherCollider.name == "Sides")
+                {
+                    directionX *= -1;
+                    collision = false;
+                }
+
+                else if (contact.otherCollider.name == "Top/bottom")
+                {
+                    directionY *= -1;
+                    collision = false;
+                }
             }
         }
     }
