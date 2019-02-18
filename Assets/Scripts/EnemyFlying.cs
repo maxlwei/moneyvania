@@ -40,7 +40,6 @@ public class EnemyFlying : MonoBehaviour
         collision = true;
 
         directionTimer -= 1;
-        Debug.Log(directionTimer.ToString());
         if (directionTimer <= 0)
         {
             directionTimer = directionTime;
@@ -72,6 +71,7 @@ public class EnemyFlying : MonoBehaviour
                 {
                     directionY *= -1;
                     collision = false;
+                    directionTimer = directionTime;
                 }
             }
         }
