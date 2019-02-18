@@ -85,9 +85,9 @@ public class CharacterControl : MonoBehaviour
 
     // health counter - text for now but probably will be image based later
     public Text healthText;
-    private float health = 5f;
+    private float health = 10f;
     private float invincibleTimer = 0f;
-    private float invincibleTime = 100f; // number of FixedUpdate cycles before you can be hit again
+    private float invincibleTime = 0.1f; // number of seconds before you can be hit again
 
     // Update is called once per frame
     void Update()
@@ -174,6 +174,7 @@ public class CharacterControl : MonoBehaviour
     {
         rg2d.mass = movement.mass;
         healthText.text = "Health:" + health.ToString();
+        invincibleTime *= 1/Time.fixedDeltaTime;
     }
 
 
@@ -196,14 +197,16 @@ public class CharacterControl : MonoBehaviour
         {
             if (contact.collider.tag == "Enemy" && invincibleTimer == 0)
             {
-                health -= 1f;
-                healthText.text = "Health: " + health.ToString();
-                invincibleTimer = invincibleTime;
-                if (health <= 0)
-                {
-                    healthText.text = "You died";
-                }
+                TakeDamage();
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "Enemy" && invincibleTimer == 0)
+        {
+            TakeDamage();
         }
     }
 
@@ -270,4 +273,15 @@ public class CharacterControl : MonoBehaviour
         return velocity;
     }
 
+
+    public void TakeDamage()
+    {
+        health -= 1f;
+        healthText.text = "Health: " + health.ToString();
+        invincibleTimer = invincibleTime;
+        if (health <= 0)
+        {
+            healthText.text = "You died";
+        }
+    }
 }

@@ -12,17 +12,26 @@ using UnityEngine;
 public class EnemyFlying : MonoBehaviour
 {
     public float maxSpeed = 3f; // max movement speed
-    public int directionTime = 50; // number of FixedUpdate cycles until vertical direction changes
+    public float directionTime = 2f; // number of seconds until vertical direction changes
+    public float fireballTime = 3f; // number of seconds between each fireball
+    public Fireball fireball;
 
     private Rigidbody2D rb2d;
     private int directionX = 1; // horizontal direction
     private int directionY = 1; // vertical direction
-    private int directionTimer = 0; // counter for changing vertical direction
+    private float directionTimer = 0f; // counter for changing vertical direction
     private bool collision = false; // all the stuff with this variable is to prevent a bug where OnCollisonEnter2D is called twice per collision
+    private float fireballTimer = 0f;
 
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+
+        fireballTime *= 1/Time.fixedDeltaTime; // convert times to frame counts and set timers
+        fireballTimer = fireballTime;
+
+        directionTime *= 1/Time.fixedDeltaTime;
+        directionTimer = directionTime;
     }
 
     void FixedUpdate()
@@ -31,10 +40,19 @@ public class EnemyFlying : MonoBehaviour
         collision = true;
 
         directionTimer -= 1;
+        Debug.Log(directionTimer.ToString());
         if (directionTimer <= 0)
         {
             directionTimer = directionTime;
             directionY *= -1;
+        }
+
+        fireballTimer -= 1;
+        if (fireballTimer <= 0)
+        {
+            Fireball clone = (Fireball)Instantiate(fireball, transform.position, transform.rotation);
+            clone.direction = directionX;
+            fireballTimer = fireballTime;
         }
     }
 

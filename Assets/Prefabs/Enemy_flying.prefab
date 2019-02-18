@@ -97,7 +97,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 3
-  directionTime: 50
+  directionTime: 2
+  fireballTime: 3
+  fireball: {fileID: 5679351524683826195, guid: b2dd954680934f5428e5b94fb894efda,
+    type: 3}
 --- !u!50 &1969407846006416723
 Rigidbody2D:
   serializedVersion: 4
@@ -201,7 +204,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.2}
+  m_Size: {x: 1.9, y: 0.2}
   m_EdgeRadius: 0
 --- !u!61 &879495432017095099
 BoxCollider2D:
@@ -227,7 +230,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.2}
+  m_Size: {x: 1.9, y: 0.2}
   m_EdgeRadius: 0
 --- !u!1 &9139001609242698960
 GameObject:
@@ -285,7 +288,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 2}
+  m_Size: {x: 0.2, y: 1.9}
   m_EdgeRadius: 0
 --- !u!61 &1686684319124333666
 BoxCollider2D:
@@ -311,5 +314,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 2}
+  m_Size: {x: 0.2, y: 1.9}
   m_EdgeRadius: 0
