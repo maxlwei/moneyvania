@@ -83,12 +83,6 @@ public class CharacterControl : MonoBehaviour
 
     private CharacterController controller;
 
-    // health counter - text for now but probably will be image based later
-    public Text healthText;
-    private float health = 10f;
-    private float invincibleTimer = 0f;
-    private float invincibleTime = 0.1f; // number of seconds before you can be hit again
-
     // Update is called once per frame
     void Update()
     {
@@ -161,20 +155,12 @@ public class CharacterControl : MonoBehaviour
 
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
-
-        if (invincibleTimer > 0f)
-        {
-            invincibleTimer -= 1f;
-        }
-
     }
 
     // Start is called after Awake, before first frame
     void Start()
     {
         rg2d.mass = movement.mass;
-        healthText.text = "Health:" + health.ToString();
-        invincibleTime *= 1/Time.fixedDeltaTime;
     }
 
 
@@ -189,25 +175,6 @@ public class CharacterControl : MonoBehaviour
             groundCollider = collider;
         }
         rg2d = GetComponent<Rigidbody2D>();
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        foreach (ContactPoint2D contact in col.contacts)
-        {
-            if (contact.collider.tag == "Enemy" && invincibleTimer == 0)
-            {
-                TakeDamage();
-            }
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "Enemy" && invincibleTimer == 0)
-        {
-            TakeDamage();
-        }
     }
 
     public float GetHorizontalInput()
@@ -271,17 +238,5 @@ public class CharacterControl : MonoBehaviour
             velocity = new Vector2(velocity.x, Mathf.Sign(body.velocity.y) * movement.maxVertiSpeed);
         }
         return velocity;
-    }
-
-
-    public void TakeDamage()
-    {
-        health -= 1f;
-        healthText.text = "Health: " + health.ToString();
-        invincibleTimer = invincibleTime;
-        if (health <= 0)
-        {
-            healthText.text = "You died";
-        }
     }
 }
