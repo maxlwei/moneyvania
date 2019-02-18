@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class CharacterMovement
@@ -25,7 +26,6 @@ public class CharacterMovement
 
     // increased gravity for our girl
     public float gravity;
-
 
     [NonSerialized]
     public CollisionFlags collisionFlags;
@@ -155,7 +155,6 @@ public class CharacterControl : MonoBehaviour
 
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
-
     }
 
     // Start is called after Awake, before first frame
@@ -240,5 +239,4 @@ public class CharacterControl : MonoBehaviour
         }
         return velocity;
     }
-
 }

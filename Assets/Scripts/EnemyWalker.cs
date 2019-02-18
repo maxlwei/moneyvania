@@ -15,7 +15,7 @@ public class EnemyWalker : MonoBehaviour
 
     private Rigidbody2D rb2d;
     private int direction = 1; // movement direction
-    private bool collision = false; // all the stuff with this variable is to prevent bug where OnCollisonEnter2D is called twice per collision
+    private bool collision = false; // all the stuff with this variable is to prevent a bug where OnCollisonEnter2D is called twice per collision
 
     void Awake()
     {
@@ -36,11 +36,6 @@ public class EnemyWalker : MonoBehaviour
             {
                 direction *= -1;
                 collision = false;
-            }
-
-            if (contact.collider.name == "Player")
-            {
-                rb2d.AddForce(new Vector2(0f, 100f));
             }
         }
     }
