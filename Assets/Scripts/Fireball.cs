@@ -14,6 +14,10 @@ public class Fireball : MonoBehaviour
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    void Start()
+    {
         duration *= 1/Time.fixedDeltaTime;
         timer = duration;
     }
