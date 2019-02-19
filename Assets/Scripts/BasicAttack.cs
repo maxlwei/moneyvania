@@ -22,7 +22,7 @@ public class BasicAttack : MonoBehaviour
     void Update()
     {  
         // follow player
-        transform.position = followPlayer(range);
+        transform.position = followPlayer(); 
     }
 
     void FixedUpdate()
@@ -54,12 +54,12 @@ public class BasicAttack : MonoBehaviour
 
         
         // update direction of attack based on player orientation
-        range = Vector3.right * battackDirection;
+        // range = Vector3.right * battackDirection;
     }
 
-    public Vector3 followPlayer(Vector3 range)
+    public Vector3 followPlayer()
     {
-        return (player.transform.position + offset + range);
+        return (player.transform.position + offset); // +range
     }
 
 }

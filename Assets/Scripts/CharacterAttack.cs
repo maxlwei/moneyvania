@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class CharacterAttack : MonoBehaviour
 {
+    // to control attack cooldowns
     public float attackCD = 1f;
     private float attackState;
-    private float lastAttack;
 
+    // for reading velocity/direction
     private Rigidbody2D rb2d;
-
     private CharacterControl movement;
 
+    // attack 1 - melee attack
     public BasicAttack attack1;
 
     void Awake()
@@ -29,7 +30,7 @@ public class CharacterAttack : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("e") && (attackState > (attackCD - 0.01f))){
-            BasicAttack battack = Instantiate(attack1, transform.position, transform.rotation);
+            BasicAttack battack = Instantiate(attack1, transform.position + Vector3.right * movement.facingDirection, transform.rotation);
             battack.duration = 1;
             battack.battackDirection = movement.facingDirection;
             
