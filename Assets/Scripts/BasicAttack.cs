@@ -13,7 +13,7 @@ public class BasicAttack : MonoBehaviour
     private Vector3 offset;
     private Vector3 range;
 
-    // duration of attack
+    // duration + direction of attack
     public float duration = 1;
     private float timeoutDestructor;
     
@@ -48,11 +48,19 @@ public class BasicAttack : MonoBehaviour
 
     void Start()
     {
+        // find position of attack relative to player
         offset = transform.position - player.transform.position;
+
+        // prevent movement from gravity
         attackBody.isKinematic = true;
+
+        // creates a timer based on the fixedupdate cycle
         timeoutDestructor = duration / Time.fixedDeltaTime;
 
         
+        // -- use if changing range within the attack script --
+        // current: range defined in attack controller
+
         // update direction of attack based on player orientation
         // range = Vector3.right * battackDirection;
     }

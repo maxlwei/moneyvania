@@ -30,16 +30,20 @@ public class CharacterAttack : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown("e") && (attackState > (attackCD - 0.01f))){
-            BasicAttack battack = Instantiate(attack1, transform.position + Vector3.right * movement.facingDirection, transform.rotation);
-            battack.duration = 1;
-            battack.battackDirection = movement.facingDirection;
-            
-            
-            attackState = 0;
+            MeleeAttack();
         }
 
         if(attackState < (attackCD + 0.1)){
             attackState += Time.deltaTime;
         }
+    }
+
+    void MeleeAttack()
+    {
+        BasicAttack battack = Instantiate(attack1, transform.position + Vector3.right * movement.facingDirection, transform.rotation);
+        battack.duration = 1;
+        battack.battackDirection = movement.facingDirection;
+        
+        attackState = 0;
     }
 }
