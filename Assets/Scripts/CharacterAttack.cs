@@ -10,6 +10,8 @@ public class CharacterAttack : MonoBehaviour
 
     private Rigidbody2D rb2d;
 
+    private CharacterControl movement;
+
     public BasicAttack attack1;
 
     void Awake()
@@ -20,6 +22,7 @@ public class CharacterAttack : MonoBehaviour
     void Start()
     {    
         attackState = attackCD;
+        movement = GetComponent<CharacterControl>();
     }
 
     // Update is called once per frame
@@ -28,6 +31,8 @@ public class CharacterAttack : MonoBehaviour
         if(Input.GetKeyDown("e") && (attackState > (attackCD - 0.01f))){
             BasicAttack battack = Instantiate(attack1, transform.position, transform.rotation);
             battack.duration = 1;
+            battack.battackDirection = movement.facingDirection;
+            
             
             attackState = 0;
         }

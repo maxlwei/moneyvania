@@ -69,6 +69,8 @@ public class CharacterControl : MonoBehaviour
     private float hori;
     private float verti;
 
+    public float facingDirection = 1f;
+
 
     // speed + motion characteristics
 
@@ -99,9 +101,13 @@ public class CharacterControl : MonoBehaviour
         
         if (hori < 0){
             this.GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
+
+            facingDirection = -1f;
         } 
         else if (hori > 0){
             this.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
+
+            facingDirection = 1f;
         }
 
         grounded = GetGroundedState();

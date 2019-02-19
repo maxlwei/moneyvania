@@ -16,14 +16,11 @@ public class BasicAttack : MonoBehaviour
     // duration of attack
     public float duration = 1;
     private float timeoutDestructor;
+    
+    public float battackDirection;
 
     void Update()
-    {
-        // update direction of attack if player is moving
-        if(Mathf.Abs(playerVel.velocity.x) > 0){
-            range = new Vector3(Mathf.Sign(playerVel.velocity.x) * 1f, 0, 0);
-        }
-
+    {  
         // follow player
         transform.position = followPlayer(range);
     }
@@ -54,6 +51,10 @@ public class BasicAttack : MonoBehaviour
         offset = transform.position - player.transform.position;
         attackBody.isKinematic = true;
         timeoutDestructor = duration / Time.fixedDeltaTime;
+
+        
+        // update direction of attack based on player orientation
+        range = Vector3.right * battackDirection;
     }
 
     public Vector3 followPlayer(Vector3 range)
