@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
+    public TextMesh healthText;
     public float health = 3f;
-    private bool invincible = false; // once again, to prevent glitch where OnCollisionEnter can trigger twice per collision
+    private bool invincible = false; // to prevent glitch where OnCollisionEnter can trigger twice per collision
 
     void Start()
     {
+        healthText.text = "Health: " + health.ToString();
     }
 
     void FixedUpdate()
@@ -39,6 +41,7 @@ public class EnemyHealth : MonoBehaviour
     public void TakeDamage()
     {
         health -= 1f;
+        healthText.text = "Health: " + health.ToString();
         invincible = true;
         if (health <= 0)
         {

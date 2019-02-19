@@ -4,7 +4,6 @@ using UnityEngine;
 
 // very basic enemy type
 // moves left and right, turns around when it hits any object
-// jumps when it hits the player
 
 // has two collider boxes, one for feet and one for body (to ensure feet collisions don't cause it to turn around)
 // alternative method would be to have different tags for the sides and tops of blocks, and check tags when colliding
