@@ -12,7 +12,8 @@ public class CharacterMovement
     
     // maximum speeds in x and y direction
     public float maxHoriSpeed;
-    public float maxVertiSpeed;
+    public float maxUpSpeed;
+    public float maxDownSpeed;
 
     // forces used to move rigid bodies
     public float moveForce;
@@ -39,7 +40,8 @@ public class CharacterMovement
         mass = 1f;
 
         maxHoriSpeed = 4f;
-        maxVertiSpeed = 8f;
+        maxUpSpeed = 8f;
+        maxDownSpeed = -16f;
         moveForce = 200f;
         jumpForce = 300f;
 
@@ -125,8 +127,7 @@ public class CharacterControl : MonoBehaviour
 
         
         if (vertvel < -1.0 && !currentstate.IsName("Jump.jumpdownstall")
-           && !currentstate.IsName("Jump.jumpland") && !currentstate.IsName("Jump.fallonly"))
-        {
+           && !currentstate.IsName("Jump.jumpland") && !currentstate.IsName("Jump.fallonly")) {
             anime.Play("Jump.fallonly");
         }
 
@@ -138,7 +139,7 @@ public class CharacterControl : MonoBehaviour
         }
 
         // horizontal movement, now with checks
-        if(verti >= -0.1){
+        if(verti >= -0.1 || !grounded) {
             rg2d.AddForce(Vector2.right * hori * movement.moveForce);
         }
         else{
@@ -234,8 +235,11 @@ public class CharacterControl : MonoBehaviour
         if (Mathf.Abs(body.velocity.x) > movement.maxHoriSpeed){
             velocity = new Vector2(Mathf.Sign(body.velocity.x) * movement.maxHoriSpeed, velocity.y);
         }
-        if (Mathf.Abs(body.velocity.y) > movement.maxVertiSpeed){
-            velocity = new Vector2(velocity.x, Mathf.Sign(body.velocity.y) * movement.maxVertiSpeed);
+        if (body.velocity.y > movement.maxUpSpeed) {
+            velocity = new Vector2(velocity.x, movement.maxUpSpeed);
+        }
+        else if (body.velocity.y < movement.maxDownSpeed) {
+            velocity = new Vector2(velocity.x, movement.maxDownSpeed);
         }
         return velocity;
     }
