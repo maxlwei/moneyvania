@@ -134,7 +134,9 @@ public class CharacterControl : MonoBehaviour
         // checks for upwards input and whether the character was recently grounded
         // before jumping
         if (JumpCheck(verti > 0, lastGroundTime, groundedTimer)){
-            anime.Play("Jump.jumpstart");
+            if (!currentstate.IsName("Jump.jumpstart") && !currentstate.IsName("Jump.jumpupstall")){
+                anime.Play("Jump.jumpstart");
+            }
             rg2d.AddForce(Vector2.up * movement.jumpForce);
         }
 
