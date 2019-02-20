@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 581913928821773801}
   - component: {fileID: 7370042857819771998}
   - component: {fileID: 3030880433033572759}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2813383304250723118}
   - component: {fileID: 3892709537375765219}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Body
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -158,7 +158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1884881352456313285}
   - component: {fileID: 7700542801844768934}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Feet
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 189659343131192534}
   - component: {fileID: 8894756636429942264}
   - component: {fileID: 7780939306983607141}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy_walker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

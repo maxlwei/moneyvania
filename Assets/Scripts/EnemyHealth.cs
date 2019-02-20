@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class EnemyHealth : MonoBehaviour
 {
     public TextMesh healthText;
-    public float health = 3f;
+    public float health = 3f; // maximum hitpoints
     private bool invincible = false; // to prevent glitch where OnCollisionEnter can trigger twice per collision
 
     void Start()
@@ -19,7 +19,19 @@ public class EnemyHealth : MonoBehaviour
         invincible = false;
     }
 
+    // all 4 functions below are for taking damage from different sources - hitting colliders, staying in colliders, hitting triggers, and staying in triggers
     void OnCollisionEnter2D(Collision2D col)
+    {
+        foreach (ContactPoint2D contact in col.contacts)
+        {
+            if (contact.collider.tag == "Attack" && invincible == false)
+            {
+                TakeDamage();
+            }
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D col)
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
@@ -38,7 +50,15 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.tag == "Attack" && invincible == false)
+        {
+            TakeDamage();
+        }
+    }
+
+    public void TakeDamage() // function that subtracts 1 from hitpoints, updates health text, and deletes enemy at 0 health
     {
         health -= 1f;
         healthText.text = "Health: " + health.ToString();
