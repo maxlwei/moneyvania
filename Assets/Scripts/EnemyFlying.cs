@@ -75,7 +75,7 @@ public class EnemyFlying : MonoBehaviour
         RaycastHit2D hitPlayer = Physics2D.Raycast(transform.position, toPlayer, detectionDistance, LayerMask.GetMask("Player")); // raycast to check if player is within range of enemy
         if (hitPlayer.collider != null)
         {
-            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, toPlayer, detectionDistance, LayerMask.GetMask("Terrain")); // raycast to check if wall is between player and enemy
+            RaycastHit2D hitWall = Physics2D.Raycast(transform.position, toPlayer, toPlayer.magnitude, LayerMask.GetMask("Terrain")); // raycast to check if wall is between player and enemy
             if (hitWall.collider == null)
             {
                 return true; // only returns true if both checks pass, i.e. player within range and not behind wall
@@ -107,13 +107,13 @@ public class EnemyFlying : MonoBehaviour
 
     public void MovementTracking(Rigidbody2D rb2d, Vector2 toPlayer) // movement pattern when tracking player
     {
-        rb2d.AddForce(toPlayer * trackForce);
+        rb2d.AddForce(toPlayer * trackForce); // add force in player's direction
 
-        rb2d.velocity = new Vector2(ApplySpeedLimit(rb2d.velocity.x, maxSpeed), ApplySpeedLimit(rb2d.velocity.y, maxSpeed));
+        rb2d.velocity = new Vector2(ApplySpeedLimit(rb2d.velocity.x, maxSpeed), ApplySpeedLimit(rb2d.velocity.y, maxSpeed)); // restrict speed based on maxSpeed
 
-        directionX = (int)Mathf.Sign(rb2d.velocity.x);
+        directionX = (int)Mathf.Sign(rb2d.velocity.x); // change movement direction variable
 
-        if (PlayerInSight() && fireballTimer <= 0)
+        if (PlayerInSight() && fireballTimer <= 0) // launch fireball if player is on same horizontal level and fireball timer is 0
         {
             AttackFireball();
         }
@@ -128,7 +128,7 @@ public class EnemyFlying : MonoBehaviour
 
     public bool PlayerInSight() // check if player is near same horizontal level as self
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionX * Vector2.right, Mathf.Infinity, LayerMask.GetMask("Player"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionX * Vector2.right, Mathf.Infinity, LayerMask.GetMask("Player")); // vertical raycast with infinite length
         if (hit.collider != null)
         {
             return true;
