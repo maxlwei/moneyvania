@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 3
-  directionTime: 2
+  verticalForce: 100
   fireballTime: 3
   fireball: {fileID: 5679351524683826195, guid: b2dd954680934f5428e5b94fb894efda,
     type: 3}

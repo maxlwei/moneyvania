@@ -14,11 +14,15 @@ using UnityEngine;
 public class EnemyFlying : MonoBehaviour
 {
     public float maxSpeed = 3f; // maximum movement speed
+    public float verticalForce = 100f; // force for returning to vertical position
+    public float verticalLeniency = 0.1f; // distance before it readjusts vertical position
     public float fireballTime = 3f; // minimum time between fireballs
     //public float detectionDistance = 10f; // radius within which the enemy can detect you
     public Fireball fireball;
 
     private Rigidbody2D rb2d;
+    private Transform transform;
+    private float posY = 0f;
     private bool collision = false; // to prevent bug where OnCollisionEnter triggers twice per collision
     private float fireballTimer = 0f; // counter for time between fireballs
     private int directionX = 1; // horizontal movement direction
@@ -27,6 +31,8 @@ public class EnemyFlying : MonoBehaviour
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        transform = GetComponent<Transform>();
+        posY = transform.position.y;
         fireballTime *= 1/Time.fixedDeltaTime; // convert time to frame count
     }
 
@@ -70,7 +76,16 @@ public class EnemyFlying : MonoBehaviour
 
     public void MovementIdle(Rigidbody2D rb2d) // movement pattern when idle
     {
-        rb2d.velocity = new Vector2(maxSpeed * directionX, 0);
+        rb2d.velocity = new Vector2(maxSpeed * directionX, 0); // move sideways with constant speed
+
+        if (transform.position.y < (posY - verticalLeniency)) // adjust vertical position if it has changed
+        {
+            rb2d.AddForce(transform.up * verticalForce);
+        }
+        else if (transform.position.y > (posY + verticalLeniency))
+        {
+            rb2d.AddForce(transform.up * -1f * verticalForce);
+        }
     }
 
     public void MovementTracking(Rigidbody2D rb2d) // movement pattern when tracking player
