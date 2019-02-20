@@ -226,13 +226,13 @@ public class CharacterControl : MonoBehaviour
         // return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
 
         // uses a collider on footpos
-        return groundCollider.IsTouchingLayers(LayerMask.GetMask("Background"));
+        return groundCollider.IsTouchingLayers(LayerMask.GetMask("Terrain"));
     }
 
     public bool IsNearGround()
     {
         // uses a circle positioned at body feet to detect contact with ground
-        return Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Background"));
+        return Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Terrain"));
     }
 
     public Vector2 ApplySpeedLimits(Rigidbody2D body)

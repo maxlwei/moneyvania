@@ -10627,7 +10627,7 @@ GameObject:
   - component: {fileID: 6520668870747264485}
   - component: {fileID: 6520668870747264507}
   - component: {fileID: 6520668870747264484}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10693,6 +10693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c340ced04ddb8641a5f786f62b214f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  facingDirection: 1
   movement:
     mass: 1
     maxHoriSpeed: 4
