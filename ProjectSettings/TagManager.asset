@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Enemy
+  - OnewayPlatform
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Background
   - Terrain
   - Player
-  - 
+  - OnewayPlatform
   - 
   - 
   - 

@@ -69,7 +69,11 @@ public class CharacterControl : MonoBehaviour
     private float hori;
     private float verti;
 
+    private bool jumpInput;
+    private float jumpPressTime;
+
     public float facingDirection = 1f;
+    public bool downJumping = false;
 
 
     // speed + motion characteristics
@@ -93,9 +97,9 @@ public class CharacterControl : MonoBehaviour
         // reads inputs every frame
         hori =  GetHorizontalInput();
         verti = GetVerticalInput();
-
+        jumpInput = GetJumpInput();
     }
-    
+
     void FixedUpdate()
     {
         
@@ -139,11 +143,21 @@ public class CharacterControl : MonoBehaviour
 
         // checks for upwards input and whether the character was recently grounded
         // before jumping
-        if (JumpCheck(verti > 0, lastGroundTime, groundedTimer)){
-            if (!currentstate.IsName("Jump.jumpstart") && !currentstate.IsName("Jump.jumpupstall")){
-                anime.Play("Jump.jumpstart");
+        if (JumpCheck(lastGroundTime, groundedTimer) && jumpInput){
+            if((verti < 0) && (groundCollider.IsTouchingLayers(LayerMask.GetMask("OnewayPlatform")))){
+                downJumping = true;
             }
-            rg2d.AddForce(Vector2.up * movement.jumpForce);
+            else{
+                if(!downJumping){
+                    if (!currentstate.IsName("Jump.jumpstart") && !currentstate.IsName("Jump.jumpupstall")){
+                        anime.Play("Jump.jumpstart");
+                    }
+                    rg2d.AddForce(Vector2.up * movement.jumpForce);
+                }
+            }
+        }
+        if((verti > -0.1 || !jumpInput) && grounded){
+            downJumping = false;
         }
 
         // horizontal movement, now with checks
@@ -200,6 +214,23 @@ public class CharacterControl : MonoBehaviour
         return 0;
     }
 
+    public float GetVerticalInput()
+    {
+        // uses keys for jumping instead of axes - to prevent residual input
+        return (Input.GetAxis("Vertical"));
+    }
+
+    public bool GetJumpInput()
+    {
+        if(Input.GetButtonDown("Jump")){
+            jumpPressTime = Time.time;
+        }
+        if(Time.time < (jumpPressTime + movement.jumpLeniency)){
+            return Input.GetButton("Jump");
+        }
+        return false;
+    }
+
     public bool StoppingCheck(float Input)
     {
         // current input is less than previous is zero -> stopping
@@ -207,17 +238,11 @@ public class CharacterControl : MonoBehaviour
         return decelCheck;
     }
 
-    public bool JumpCheck(bool input, float groundTime, float timer)
+    public bool JumpCheck(float groundTime, float timer)
     {
         bool canJump = timer > movement.jumpDelay;
         bool walkoff = Time.time <  (movement.jumpLeniency + groundTime);
-        return input && walkoff && canJump;
-    }
-
-    public float GetVerticalInput()
-    {
-        // uses keys for jumping instead of axes - to prevent residual input
-        return (Input.GetAxis("Jump"));
+        return walkoff && canJump;
     }
 
     public bool GetGroundedState()
@@ -226,7 +251,9 @@ public class CharacterControl : MonoBehaviour
         // return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
 
         // uses a collider on footpos
-        return groundCollider.IsTouchingLayers(LayerMask.GetMask("Terrain"));
+        bool onNormalGround = groundCollider.IsTouchingLayers(LayerMask.GetMask("Terrain"));
+        bool onOWPlatform = groundCollider.IsTouchingLayers(LayerMask.GetMask("OnewayPlatform"));
+        return (onNormalGround || onOWPlatform);
     }
 
     public bool IsNearGround()
