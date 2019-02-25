@@ -9,6 +9,7 @@ public class CharacterHealth : MonoBehaviour
     public Text healthText;
     public float health = 10f; // total number of hitpoints (each hit always subtracts 1 hitpoint right now)
     public float invincibleTime = 0.5f; // number of seconds before you can be hit again
+    //public bool isDead = false; // unused bool for death state
     private float invincibleTimer = 0f;
 
     void Start()
@@ -30,7 +31,7 @@ public class CharacterHealth : MonoBehaviour
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.collider.tag == "Enemy" && invincibleTimer <= 0f)
+            if (CheckTags(contact.collider.tag) && invincibleTimer <= 0f)
             {
                 TakeDamage();
             }
@@ -41,7 +42,7 @@ public class CharacterHealth : MonoBehaviour
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.collider.tag == "Enemy" && invincibleTimer <= 0f)
+            if (CheckTags(contact.collider.tag) && invincibleTimer <= 0f)
             {
                 TakeDamage();
             }
@@ -50,7 +51,7 @@ public class CharacterHealth : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Enemy" && invincibleTimer <= 0f)
+        if (CheckTags(col.tag) && invincibleTimer <= 0f)
         {
             TakeDamage();
         }
@@ -58,7 +59,7 @@ public class CharacterHealth : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "Enemy" && invincibleTimer <= 0f)
+        if (CheckTags(col.tag) && invincibleTimer <= 0f)
         {
             TakeDamage();
         }
@@ -72,6 +73,20 @@ public class CharacterHealth : MonoBehaviour
         if (health <= 0)
         {
             healthText.text = "You died";
+            //isDead = true;
+        }
+    }
+
+    public bool CheckTags(string tag) // checks tags to see if player can be damaged by entity
+    {
+        if ((tag == "Enemy") || (tag == "AllDamage"))
+        {
+            return true;
+        }
+        
+        else
+        {
+            return false;
         }
     }
 }

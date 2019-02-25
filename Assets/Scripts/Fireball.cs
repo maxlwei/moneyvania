@@ -31,7 +31,12 @@ public class Fireball : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag != "Enemy")
+        if (col.tag == "Attack")
+        {
+            direction *= -1;
+        }
+
+        else
         {
             Destroy(gameObject);
         }

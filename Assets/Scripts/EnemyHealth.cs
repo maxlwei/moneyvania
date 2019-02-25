@@ -24,7 +24,7 @@ public class EnemyHealth : MonoBehaviour
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.collider.tag == "Attack" && invincible == false)
+            if (CheckTags(contact.collider.tag) && invincible == false)
             {
                 TakeDamage();
             }
@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.collider.tag == "Attack" && invincible == false)
+            if (CheckTags(contact.collider.tag) && invincible == false)
             {
                 TakeDamage();
             }
@@ -44,7 +44,7 @@ public class EnemyHealth : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Attack" && invincible == false)
+        if (CheckTags(col.tag) && invincible == false)
         {
             TakeDamage();
         }
@@ -52,7 +52,7 @@ public class EnemyHealth : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.tag == "Attack" && invincible == false)
+        if (CheckTags(col.tag) && invincible == false)
         {
             TakeDamage();
         }
@@ -66,6 +66,19 @@ public class EnemyHealth : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public bool CheckTags(string tag) // checks tags to see if enemy can be damaged by entity
+    {
+        if ((tag == "Attack") || (tag == "AllDamage"))
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
         }
     }
 }
