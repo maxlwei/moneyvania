@@ -7,25 +7,22 @@ using UnityEngine.UI;
 [Serializable]
 public class CharacterMovement
 {
-    // mass - mess with acceleration and deceleration
-    public float mass;
+    // acceleration and deceleration
+    public float horizontalAccel;
+    public float verticalAccel;
     
     // maximum speeds in x and y direction
     public float maxHoriSpeed;
     public float maxUpSpeed;
     public float maxDownSpeed;
 
-    // forces used to move rigid bodies
-    public float moveForce;
-    public float jumpForce;
 
     // number of seconds after falling until you can no longer jump
     public float jumpLeniency;
-
     // number of seconds after landing until you can jump
     public float jumpDelay;
 
-    // increased gravity for our girl
+    // gravity for our girl
     public float gravity;
 
     [NonSerialized]
@@ -37,19 +34,17 @@ public class CharacterMovement
 
     public CharacterMovement()
     {
-        mass = 1f;
+        horizontalAccel = 4f;
+        verticalAccel = 10f;
 
-        maxHoriSpeed = 4f;
-        maxUpSpeed = 8f;
-        maxDownSpeed = -16f;
-        moveForce = 200f;
-        jumpForce = 300f;
-
+        maxHoriSpeed = 8f;
+        maxUpSpeed = 12f;
+        maxDownSpeed = -12f;
+        
         jumpLeniency = 0.2f;
         jumpDelay = 0.1f;
 
-        gravity = 9.81f;
-
+        gravity = 8f;
     }
 }
 
@@ -65,19 +60,23 @@ public class CharacterControl : MonoBehaviour
     private float lastGroundTime;
     private float groundedTimer;
 
-    // input vars
+    // input variables
     private float hori;
     private float verti;
 
+    // bool for jumping input
     private bool jumpInput;
+    // bool to check if jump is released, used for gravity application
+    public bool isJumping = false;
+    // variable to store time at which jump was first pressed
     private float jumpPressTime;
 
+    // variables for determining direction and downjumping status
     public float facingDirection = 1f;
     public bool downJumping = false;
 
 
-    // speed + motion characteristics
-
+    #region Components to be accessed
     //keep this public, for some reason
     public CharacterMovement movement;
 
@@ -90,6 +89,7 @@ public class CharacterControl : MonoBehaviour
     public Transform footPos;
 
     private CharacterController controller;
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -103,6 +103,7 @@ public class CharacterControl : MonoBehaviour
     void FixedUpdate()
     {
         
+        // change sprite based on direction of last movement
         if (hori < 0){
             this.GetComponent<Transform>().localScale = new Vector3(-1, 1, 1);
 
@@ -114,7 +115,9 @@ public class CharacterControl : MonoBehaviour
             facingDirection = 1f;
         }
 
+        // check for grounded state
         grounded = GetGroundedState();
+
         AnimatorStateInfo currentstate = anime.GetCurrentAnimatorStateInfo(0);
 
         // checks last time character was on ground
@@ -122,6 +125,7 @@ public class CharacterControl : MonoBehaviour
             lastGroundTime = Time.time;
             groundedTimer += 1 * Time.fixedDeltaTime;
         }
+        // reset timer if off the ground for long enough
         else if(Time.time >  (movement.jumpLeniency + lastGroundTime)){
             groundedTimer = 0;
         }
@@ -146,25 +150,41 @@ public class CharacterControl : MonoBehaviour
         if (JumpCheck(lastGroundTime, groundedTimer) && jumpInput){
             if((verti < 0) && (groundCollider.IsTouchingLayers(LayerMask.GetMask("OnewayPlatform")))){
                 downJumping = true;
+
+                // apply gravity for downjumping, checks to avoid overlap with generic gravity
+                if(Time.time < lastGroundTime + movement.jumpLeniency){
+                    rg2d.velocity = Gravity(rg2d);
+                }
             }
             else{
                 if(!downJumping){
                     if (!currentstate.IsName("Jump.jumpstart") && !currentstate.IsName("Jump.jumpupstall")){
                         anime.Play("Jump.jumpstart");
                     }
-                    rg2d.AddForce(Vector2.up * movement.jumpForce);
+
+                    // Jumping movement
+                    rg2d.velocity = new Vector2(rg2d.velocity.x, rg2d.velocity.y + movement.verticalAccel);
                 }
             }
         }
+
+        // Gravity
+        if((!isJumping || (Time.time > lastGroundTime + 2 * movement.jumpLeniency)) && !grounded){
+            //  gravity active when not jumping
+            rg2d.velocity = Gravity(rg2d);
+        }
+
+        // resets downjumping state 
         if((verti > -0.1 || !jumpInput) && grounded){
             downJumping = false;
         }
 
         // horizontal movement, now with checks
         if(verti >= -0.1 || !grounded) {
-            rg2d.AddForce(Vector2.right * hori * movement.moveForce);
+            rg2d.velocity = new Vector2(rg2d.velocity.x + movement.horizontalAccel * hori, rg2d.velocity.y);
         }
         else{
+            // stop on crouch
             rg2d.velocity = new Vector2(0, rg2d.velocity.y); 
         }
         
@@ -173,9 +193,6 @@ public class CharacterControl : MonoBehaviour
             rg2d.velocity = new Vector2(0, rg2d.velocity.y);
         }
 
-        // extra gravity
-        rg2d.AddForce(Vector2.down * rg2d.mass * movement.gravity);
-
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
     }
@@ -183,7 +200,9 @@ public class CharacterControl : MonoBehaviour
     // Start is called after Awake, before first frame
     void Start()
     {
-        rg2d.mass = movement.mass;
+        // turn off gravity, we will apply our own
+        // we are not making it kinematic to preserve collider behaviors
+        rg2d.gravityScale = 0f;
     }
 
 
@@ -202,6 +221,8 @@ public class CharacterControl : MonoBehaviour
 
     public float GetHorizontalInput()
     {
+        // archaic, should be updated by setting an axis
+
         // if a direction is inputted -> return 1 in that direction
         // if not, return 0
 
@@ -216,43 +237,63 @@ public class CharacterControl : MonoBehaviour
 
     public float GetVerticalInput()
     {
-        // uses keys for jumping instead of axes - to prevent residual input
+        // uses instant axes for vertical input instead of default axes - to prevent residual input
+        // separate from jumping to allow for downjumping
         return (Input.GetAxis("Vertical"));
     }
 
     public bool GetJumpInput()
     {
-        if(Input.GetButtonDown("Jump")){
+        // gets the initial jump press if grounded
+        if(Input.GetButtonDown("Jump") && grounded){
             jumpPressTime = Time.time;
+            isJumping = true;
         }
+
+        // checks if jump input is sustained
+        if(Input.GetButtonUp("Jump")){
+            isJumping = false;
+        }
+
+        // returns jump inputs if not grounded and within the jumping window
         if(Time.time < (jumpPressTime + movement.jumpLeniency)){
             return Input.GetButton("Jump");
         }
+        
         return false;
     }
 
     public bool StoppingCheck(float Input)
     {
-        // current input is less than previous is zero -> stopping
+        // current input is zero -> stopping
+        // leave as a function to allow for expansion of stopping
         bool decelCheck = Input == 0;
         return decelCheck;
     }
 
     public bool JumpCheck(float groundTime, float timer)
     {
+        // time from last landing is past jump delay
         bool canJump = timer > movement.jumpDelay;
+
+        // time from last jumping is within jump leniency
         bool walkoff = Time.time <  (movement.jumpLeniency + groundTime);
+
         return walkoff && canJump;
+    }
+
+    public Vector2 Gravity(Rigidbody2D body)
+    {
+        // apply downwards velocity
+        return new Vector2(body.velocity.x, body.velocity.y - movement.gravity);
     }
 
     public bool GetGroundedState()
     {
-        // uses a circle positioned at body feet to detect contact with ground
-        // return Physics2D.OverlapCircle(footPos.position, 0.01f, LayerMask.GetMask("Background"));
-
         // uses a collider on footpos
         bool onNormalGround = groundCollider.IsTouchingLayers(LayerMask.GetMask("Terrain"));
         bool onOWPlatform = groundCollider.IsTouchingLayers(LayerMask.GetMask("OnewayPlatform"));
+        // checks for bothh regular terrain and OWPs, there is probably a better way to do this
         return (onNormalGround || onOWPlatform);
     }
 
