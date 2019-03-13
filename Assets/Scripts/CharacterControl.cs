@@ -89,6 +89,8 @@ public class CharacterControl : MonoBehaviour
     public Transform footPos;
 
     private CharacterController controller;
+
+    private bool hitStun;
     #endregion
 
     // Update is called once per frame
@@ -98,6 +100,9 @@ public class CharacterControl : MonoBehaviour
         hori =  GetHorizontalInput();
         verti = GetVerticalInput();
         jumpInput = GetJumpInput();
+
+        // check if hit 
+        hitStun = GetComponent<CharacterHealth>().isHit;
     }
 
     void FixedUpdate()
@@ -195,6 +200,12 @@ public class CharacterControl : MonoBehaviour
 
         // ensure movement is within speed limits and adjust
         rg2d.velocity = ApplySpeedLimits(rg2d);
+
+        // check for hitstun
+        if(hitStun){
+            rg2d.velocity = Vector2.zero;
+        }
+        // Debug.Log(hitStun);
     }
 
     // Start is called after Awake, before first frame

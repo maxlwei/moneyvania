@@ -9,19 +9,25 @@ public class CharacterHealth : MonoBehaviour
     public Text healthText;
     private float health = 10f;
     private float invincibleTimer = 0f;
-    private float invincibleTime = 0.5f; // number of seconds before you can be hit again
+    private float invincibleTime = 2f; // number of seconds before you can be hit again
+
+    public bool isHit;
+    private float hitStun = 0.5f;
 
     void Start()
     {
         healthText.text = "Health: " + health.ToString();
         invincibleTime *= 1/Time.fixedDeltaTime;
+        hitStun *= 1/Time.fixedDeltaTime;
     }
 
     void FixedUpdate()
     {
-        if (invincibleTimer > 0f)
-        {
+        if (invincibleTimer > 0f){
             invincibleTimer -= 1f;
+        }
+        if (invincibleTimer < (invincibleTime - hitStun)){
+            isHit = false;
         }
     }
 
@@ -29,8 +35,7 @@ public class CharacterHealth : MonoBehaviour
     {
         foreach (ContactPoint2D contact in col.contacts)
         {
-            if (contact.collider.tag == "Enemy" && invincibleTimer <= 0f)
-            {
+            if (contact.collider.tag == "Enemy" && invincibleTimer <= 0f){
                 TakeDamage();
             }
         }
@@ -38,8 +43,7 @@ public class CharacterHealth : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "Enemy" && invincibleTimer <= 0f)
-        {
+        if (col.tag == "Enemy" && invincibleTimer <= 0f){
             TakeDamage();
         }
     }
@@ -49,9 +53,9 @@ public class CharacterHealth : MonoBehaviour
         health -= 1f;
         healthText.text = "Health: " + health.ToString();
         invincibleTimer = invincibleTime;
-        if (health <= 0)
-        {
+        if (health <= 0){
             healthText.text = "You died";
         }
+        isHit = true;
     }
 }
