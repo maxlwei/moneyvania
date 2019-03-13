@@ -20,6 +20,7 @@ public class Fireball : MonoBehaviour
     {
         duration *= 1/Time.fixedDeltaTime;
         timer = duration;
+        this.GetComponent<Transform>().localScale = new Vector3(-direction, 1, 1);
     }
 
     void FixedUpdate()
