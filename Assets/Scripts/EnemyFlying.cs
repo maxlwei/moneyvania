@@ -32,6 +32,7 @@ public class EnemyFlying : MonoBehaviour
 
         directionTime *= 1/Time.fixedDeltaTime;
         directionTimer = directionTime;
+        this.GetComponent<Transform>().localScale = new Vector3(-directionX, 1, 1);
     }
 
     void FixedUpdate()
@@ -75,5 +76,7 @@ public class EnemyFlying : MonoBehaviour
                 }
             }
         }
+
+        this.GetComponent<Transform>().localScale = new Vector3(-directionX, 1, 1);
     }
 }
