@@ -21,6 +21,7 @@ public class CharacterMovement
     public float jumpLeniency;
     // number of seconds after landing until you can jump
     public float jumpDelay;
+    
 
     // gravity for our girl
     public float gravity;
@@ -34,8 +35,8 @@ public class CharacterMovement
 
     public CharacterMovement()
     {
-        horizontalAccel = 4f;
-        verticalAccel = 10f;
+        horizontalAccel = 8f;
+        verticalAccel = 12f;
 
         maxHoriSpeed = 8f;
         maxUpSpeed = 12f;
@@ -70,10 +71,17 @@ public class CharacterControl : MonoBehaviour
     public bool isJumping = false;
     // variable to store time at which jump was first pressed
     private float jumpPressTime;
+    // variable for jump speed
+    private float jumpSpeed;
+    private float jumpdecay = 2f;
 
     // variables for determining direction and downjumping status
     public float facingDirection = 1f;
     public bool downJumping = false;
+
+    private bool hitStun;
+    private bool dead = false;
+
 
 
     #region Components to be accessed
@@ -89,8 +97,6 @@ public class CharacterControl : MonoBehaviour
     public Transform footPos;
 
     private CharacterController controller;
-
-    private bool hitStun;
     #endregion
 
     // Update is called once per frame
@@ -103,10 +109,18 @@ public class CharacterControl : MonoBehaviour
 
         // check if hit 
         hitStun = GetComponent<CharacterHealth>().isHit;
+        //check if dead
+        dead = GetComponent<CharacterHealth>().isDead;
+
     }
 
     void FixedUpdate()
     {
+        if(dead){
+            hori = 0;
+            verti = 0;
+            jumpInput = false;
+        }
         
         // change sprite based on direction of last movement
         if (hori < 0){
@@ -150,7 +164,7 @@ public class CharacterControl : MonoBehaviour
            && !currentstate.IsName("Jump.jumpland") && !currentstate.IsName("Jump.fallonly")) {
             anime.Play("Jump.fallonly");
 
-            Debug.Log("Vertr vel is " + vertvel + " and Current state is " + currentstate);
+            // Debug.Log("Vertr vel is " + vertvel + " and Current state is " + currentstate);
         }
 
         // checks for upwards input and whether the character was recently grounded
@@ -171,9 +185,16 @@ public class CharacterControl : MonoBehaviour
                     }
 
                     // Jumping movement
-                    rg2d.velocity = new Vector2(rg2d.velocity.x, rg2d.velocity.y + movement.verticalAccel);
+                    rg2d.velocity = new Vector2(rg2d.velocity.x, rg2d.velocity.y + jumpSpeed);
                 }
             }
+        }
+
+        if(!grounded){
+            jumpSpeed -= jumpdecay;
+        }
+        else{
+            jumpSpeed = movement.verticalAccel;
         }
 
         // Gravity
@@ -208,7 +229,6 @@ public class CharacterControl : MonoBehaviour
         if(hitStun){
             rg2d.velocity = Vector2.zero;
         }
-        // Debug.Log(hitStun);
     }
 
     // Start is called after Awake, before first frame
@@ -217,6 +237,10 @@ public class CharacterControl : MonoBehaviour
         // turn off gravity, we will apply our own
         // we are not making it kinematic to preserve collider behaviors
         rg2d.gravityScale = 0f;
+
+        jumpSpeed = movement.verticalAccel;
+        jumpdecay *= Time.fixedDeltaTime;
+
     }
 
 
