@@ -291,8 +291,9 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420030}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -317,10 +318,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa46df24bb3804f408fea9051fd4ec4f, type: 3}
+  m_Script: {fileID: 11500000, guid: b9c99bf64ac69e947a7b7f4faf6a8e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1513896013}
+  m_FocusList:
+  - {fileID: 1513896019}
+  m_ActionRectSpaceAdded: 12
+  m_CameraLimits:
+    serializedVersion: 2
+    x: -67.2
+    y: -5.8
+    width: 224.1
+    height: 21.73
+  m_DrawDebug: 1
+  m_AutoAddFocus: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -371,7 +382,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 3.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1802937122}
@@ -385,7 +396,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
@@ -398,6 +409,22 @@ MonoBehaviour:
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc239a298246fa45bfa7b6357a68bf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Speed: {x: 2, y: 2}
+  m_ViewChangedThreshold: {x: 2.34, y: 4.73}
+  m_IsMovingThreshold: {x: 3, y: 5}
+  m_DrawDebug: 1
 --- !u!1 &861001266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,6 +1873,7 @@ GameObject:
   - component: {fileID: 1513896016}
   - component: {fileID: 1513896018}
   - component: {fileID: 1513896017}
+  - component: {fileID: 1513896019}
   m_Layer: 9
   m_Name: default_sprite
   m_TagString: Untagged
@@ -1964,6 +1992,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCD: 1
   attack1: {fileID: 8954188124457744444, guid: 39803dbcf7a7de14bb14148991e655e2, type: 3}
+--- !u!114 &1513896019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513896013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5ef66453f88bfc45919e47b06ff9f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Influence: {x: 1, y: 1}
+  m_DrawDebug: 0
+  m_Offset: {x: 0, y: 0}
+  m_VelocityToOffset: {x: 0.6, y: 0.1}
 --- !u!1 &1536208323
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,6 +2862,7 @@ GameObject:
   - component: {fileID: 2061408286}
   - component: {fileID: 2061408288}
   - component: {fileID: 2061408287}
+  - component: {fileID: 2061408289}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -6660,6 +6705,21 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &2061408289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2061408285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fabd40e8bb8a44a918c1bb4062eca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CameraTransform: {fileID: 519420032}
+  m_Influence: {x: 0.3, y: 0.3}
+  m_DrawDebug: 0
 --- !u!1 &2129572676
 GameObject:
   m_ObjectHideFlags: 0
