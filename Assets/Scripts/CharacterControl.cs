@@ -144,10 +144,13 @@ public class CharacterControl : MonoBehaviour
         anime.SetBool("nearground", IsNearGround());
         anime.SetFloat("deltafromground", Time.time - lastGroundTime);
 
-        
-        if (vertvel < -1.0 && !currentstate.IsName("Jump.jumpdownstall")
+        bool fallDelay = (Time.time - lastGroundTime) > 0.1;
+
+        if (fallDelay && vertvel < -1.0 && !currentstate.IsName("Jump.jumpdownstall")
            && !currentstate.IsName("Jump.jumpland") && !currentstate.IsName("Jump.fallonly")) {
             anime.Play("Jump.fallonly");
+
+            Debug.Log("Vertr vel is " + vertvel + " and Current state is " + currentstate);
         }
 
         // checks for upwards input and whether the character was recently grounded
@@ -311,7 +314,19 @@ public class CharacterControl : MonoBehaviour
     public bool IsNearGround()
     {
         // uses a circle positioned at body feet to detect contact with ground
-        return Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Terrain"));
+        bool onNormalGround = Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("Terrain"));
+        bool onOWPlatform = Physics2D.OverlapCircle(footPos.position, 0.3f, LayerMask.GetMask("OnewayPlatform"));
+        // checks for bothh regular terrain and OWPs, there is probably a better way to do this
+        return (onNormalGround || onOWPlatform);
+    }
+
+    private void OnDrawGizmos() {
+
+
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(footPos.position, 0.3f);
+
     }
 
     public Vector2 ApplySpeedLimits(Rigidbody2D body)

@@ -11143,7 +11143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1066597637}
   - component: {fileID: 1066597638}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11662,7 +11662,7 @@ GameObject:
   - component: {fileID: 1513896018}
   - component: {fileID: 1513896017}
   - component: {fileID: 1513896019}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: default_sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20235,7 +20235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8457548506199831824}
   - component: {fileID: 1225783467235557294}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: footpos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20292,7 +20292,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2006574258452901336}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
